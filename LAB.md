@@ -31,3 +31,7 @@ Done when: ...
 | A | | | | |
 | B | | | | |
 | C | | | | |
+
+## หลังทำ — ดูใน platform
+
+ดู `bp_clear_context` · `bp_relevant_files` · `bp_error_context` ที่ควรเพิ่ม และ `eff_context_bloat` / `eff_long_session_drift` ที่ควรลด
