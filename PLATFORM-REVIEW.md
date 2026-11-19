@@ -6,8 +6,8 @@
 
 | กลุ่ม | จำนวน | วัดจาก | เทคนิคที่วัด |
 |---|---|---|---|
-| `best_practice` (bp_*) | 14 | ตัว prompt เอง (LLM tagger) | 1 Specific Request · 2 Context · 4 Verify First |
-| `efficiency` (eff_*) | 15 | การใช้จริงต่อ turn (rule + LLM) | 3 Token Optimization |
+| `best_practice` (bp_*) | 14 | ตัว prompt เอง (LLM tagger) | 1 Specific Request · 2 Context · 4 Verify First · 6 Evidence & Output |
+| `efficiency` (eff_*) | 15 | การใช้จริงต่อ turn (rule + LLM) | 3 Token Optimization · 4 Verify First · 7 Agent Right-Sizing |
 | `security` (sec_*) | 8 | scan + tool calls ของ agent | 5 Safe Agent |
 
 ## หลังทำแต่ละ lab — ดูอะไรใน platform
