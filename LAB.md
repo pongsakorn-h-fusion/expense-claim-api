@@ -21,3 +21,7 @@
 | ข้อที่ทำได้ (/5) | Prompts | Agent steps | Tokens | นาที |
 |---|---|---|---|---|
 | | | | | |
+
+## หลังทำ — ดูใน platform
+
+ดู tag ของ prompt วันนี้ — `bp_vague` ควรลด · `bp_goal_explicit` / `bp_scope_bounded` ควรเพิ่ม
