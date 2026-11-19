@@ -47,3 +47,7 @@ agent ขอทำ 8 อย่างนี้ — ตอบ approve หรือ
 | ข้อที่ทำได้ (/5) | Prompts | Agent steps | Tokens | นาที |
 |---|---|---|---|---|
 | | | | | |
+
+## หลังทำ — ดูใน platform
+
+ดู `sec_agent_action` / `sec_secret` ใน findings — ต้อง triage ทันวัน และ rotate ทันทีถ้าพบจริง
