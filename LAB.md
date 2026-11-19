@@ -39,3 +39,7 @@ Branch นี้มีของที่ตั้งใจใส่ไว้ใ�
 |---|---|---|
 | Ask | | |
 | Agent | | |
+
+## หลังทำ — ดูใน platform
+
+ดู eff_* ต่อ turn — `eff_low_cache` · `eff_verbose_output_ask` · `eff_flagship_simple` และ est. credits ต่อ turn ที่เริ่มมีค่าหลังตั้ง rate
