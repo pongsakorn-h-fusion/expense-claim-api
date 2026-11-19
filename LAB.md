@@ -27,3 +27,7 @@ Branch นี้แก้ bug ยอดรวมแล้ว และมี ins
 | ข้อที่ทำได้ (/5) | Prompts | Agent steps | Tokens | นาที |
 |---|---|---|---|---|
 | | | | | |
+
+## หลังทำ — ดูใน platform
+
+ดู `bp_plan_first` · `bp_asks_tests` · `bp_asks_review` ที่ควรเพิ่ม และ `eff_bigbang_request` / `eff_retry_loop` ที่ควรลด
