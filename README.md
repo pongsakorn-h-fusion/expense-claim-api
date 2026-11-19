@@ -28,7 +28,9 @@ npm start         # http://localhost:3000/claims
 | `lab-3` | Token audit | มี test fail 1 ตัว + instructions file ที่ยาวเกินจำเป็นโดยตั้งใจ |
 | `lab-4` | Verify First | |
 | `lab-5` | Safe Agent & Secret Hygiene | |
-| `lab-6` | Post-test — โจทย์ A เดิม | จุดเริ่มต้นเดียวกับ `lab-0` เพื่อเทียบก่อน/หลัง |
+| `lab-6` | Evidence & Output (repro steps · output format · language) | |
+| `lab-7` | Right-size the agent (effort · model · subagent · vision · tool output) | |
+| `lab-8` | Post-test — โจทย์ A เดิม | จุดเริ่มต้นเดียวกับ `lab-0` เพื่อเทียบก่อน/หลัง |
 
 เปลี่ยน lab:
 
