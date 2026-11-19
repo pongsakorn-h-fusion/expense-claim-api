@@ -1,4 +1,4 @@
-# Lab 6 · Post-test — โจทย์ A เดิม ด้วย 5 เทคนิค (15 นาที)
+# Lab 8 · Post-test — โจทย์ A เดิม ด้วย 7 เทคนิค (20 นาที)
 
 Branch นี้คือ **จุดเริ่มต้นเดียวกับ `lab-0`** (ยังไม่มี instructions file) เพื่อให้เทียบก่อน/หลังได้ตรง — เริ่มใน **chat session ใหม่**
 
@@ -6,13 +6,15 @@ Branch นี้คือ **จุดเริ่มต้นเดียวก�
 
 เพิ่มกฎ: **ใบเบิกยอดเกิน 1,000 บาท ต้องแนบใบเสร็จ** (`receiptUrl`) ถ้าไม่มีให้ตอบ error ตามรูปแบบเดิมของ API (`ValidationError`) และเพิ่ม test
 
-ใช้ครบทั้ง 5 เทคนิค:
+ใช้ครบทั้ง 7 เทคนิค:
 
 1. prompt 5 ช่อง — เป้าหมาย · Scope · กติกา · ข้อจำกัด · Done when
 2. context ใน prompt แรก — `#file` เฉพาะที่เกี่ยว
 3. mode / tools ที่ใช่ — ปิดแท็บและ tool ที่ไม่ใช้
 4. plan + test ก่อน — แผน ≤ 3 ขั้น, test ที่ fail ก่อน
 5. อ่านก่อน approve — ทุกคำสั่งที่ agent ขอรัน
+6. evidence + output — แนบ repro steps / log จริง · ระบุรูปแบบผลลัพธ์และภาษา
+7. right-size agent — effort ปกติก่อน · งานเล็กไม่ใช้ subagent · crop ภาพ · จำกัด tool output
 
 ## Checklist (5 ข้อ) — เดียวกับ Lab 0
 
