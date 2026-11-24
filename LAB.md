@@ -6,6 +6,22 @@
 
 > key ทั้งหมดใน repo นี้เป็นของปลอม แต่ให้ปฏิบัติเหมือนเป็นของจริง
 
+## แนวคิด — เทคนิค 5 Safe Agent & Secret Hygiene
+
+อ่านก่อนกด approve — 3 ระดับ:
+
+| ระดับ | ตัวอย่าง |
+|---|---|
+| 🟢 เขียว — approve ได้ | อ่านไฟล์ในโปรเจกต์ · `npm test`, lint, build · แก้ไฟล์ใน scope (แล้ว review diff) |
+| 🟡 เหลือง — อ่านก่อน approve | ติดตั้ง package ใหม่ · แก้ config, CI, Dockerfile · git commit / สร้าง branch · เรียก network ภายนอก |
+| 🔴 แดง — ปฏิเสธ / ทำเอง | `rm -rf` · `git push --force` · DB migrate / drop บน env จริง · `curl ... \| sh` · `chmod -R 777` · อ่าน `.env` / `~/.ssh` / credential |
+
+อย่าเปิด auto-approve คำสั่ง terminal ใน repo งานจริง
+
+**Secret & data hygiene** — ไม่เก็บ secret ในโค้ด · `.env` อยู่ใน `.gitignore` · ใช้ secret manager · ตัด token / รหัสผ่าน / ข้อมูลส่วนบุคคลออกจาก log ก่อนแนบ · ใช้ข้อมูลปลอมแทนข้อมูลลูกค้าจริงใน prompt
+
+**หลุดแล้วทำอย่างไร** — rotate / revoke ก่อน (ถือว่าหลุดแล้ว) → ตรวจการใช้งานช่วงที่หลุด → แก้ต้นเหตุ + แจ้ง security team
+
 ## A (9 นาที) Approve หรือ Deny?
 
 agent ขอทำ 8 อย่างนี้ — ตอบ approve หรือ deny พร้อมเหตุผลสั้น ๆ
@@ -45,6 +61,62 @@ agent ขอทำ 8 อย่างนี้ — ตอบ approve หรือ
 1.
 2.
 3.
+
+## Prompt พร้อมใช้ (GitHub Copilot) — สไลด์ 48
+
+**A:** ตอบเอง ไม่ใช้ AI · **B:** Ask/Plan → Agent · **C:** Settings → ค้นหา “auto approve”
+
+> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+
+### B1 · หา secret (Ask)
+
+```text
+[Lab 5-B1]
+ค้นใน #codebase หา secret
+ที่ hard-code (API key ·
+password · token) ทั้งในโค้ด
+ไฟล์ config และสิ่งที่ log
+ตอนเริ่ม server
+Output: ตาราง ไฟล์ · บรรทัด
+  · ชนิด · วิธีแก้
+  ห้ามแสดงค่า secret
+  ยังไม่ต้องแก้โค้ด
+```
+
+### B2 · ย้ายไป env (Agent)
+
+```text
+[Lab 5-B2]
+งาน: ให้ key อ่านจาก process.env
+Scope: #file:src/config.ts
+  #file:src/server.ts
+  .gitignore
+กติกา:
+- ห้ามมีค่า default ของ key ในโค้ด
+- log แค่ว่ามี key หรือไม่
+  ห้ามแสดงค่า
+- เพิ่ม .env ใน .gitignore
+ข้อจำกัด: ห้ามอ่าน/แสดงค่าใน .env
+  ห้าม git push
+Done when: npm test ผ่าน และ
+  npm start ไม่พิมพ์ key
+```
+
+### B3 · ขั้นตอน rotate (Ask)
+
+```text
+[Lab 5-B3]
+เขียนขั้นตอน rotate key ที่หลุด
+3 ขั้นสำหรับทีมนี้
+ครอบ: revoke / rotate →
+  ตรวจการใช้งานช่วงที่หลุด →
+  แก้ต้นเหตุ + แจ้ง security team
+ภาษา: ไทย 3 บรรทัด
+
+# วางผลท้าย LAB.md
+```
+
+`git rm --cached .env` ให้รันเองใน terminal · agent ขอรันคำสั่งสีแดง (`rm -rf`, `push --force`, `cat .env`) → **Deny ทุกครั้ง**
 
 ## บันทึกลง scoreboard
 
