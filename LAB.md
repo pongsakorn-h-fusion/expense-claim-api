@@ -1,5 +1,9 @@
 # Lab 5 · Approve or Deny + ล่า secret (25 นาที)
 
+> **ระบุ lab ทุก session:** ตั้งชื่อ chat `Lab 5` และขึ้นต้นทุก prompt ด้วย `[Lab 5]` (ข้อย่อย เช่น `[Lab 5-A]`) — platform ใช้แยก prompts / agent steps / tokens ต่อ lab เพื่อคำนวณ scoreboard
+>
+> **Model:** Claude Sonnet 5.5 ทุก lab (ห้าม Auto) · ปิด skills / MCP server ที่ไม่ใช้ใน Configure Tools · ไม่เห็น Ask ใน picker → ตั้ง session target เป็น Local หรือใช้ Plan แทน (Edit mode ถูกรวมเข้า Agent แล้ว — ใช้ inline chat `Ctrl+I`)
+
 > key ทั้งหมดใน repo นี้เป็นของปลอม แต่ให้ปฏิบัติเหมือนเป็นของจริง
 
 ## A (9 นาที) Approve หรือ Deny?
