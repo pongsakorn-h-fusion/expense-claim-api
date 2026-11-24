@@ -18,7 +18,9 @@ npm start         # http://localhost:3000/claims
 
 ## Branch ต่อ lab
 
-แต่ละ lab เริ่มจาก branch ของตัวเอง และมีไฟล์ `LAB.md` บอกโจทย์ เวลา และ checklist
+แต่ละ lab เริ่มจาก branch ของตัวเอง และมีไฟล์ `LAB.md` บอกโจทย์ เวลา และ checklist — **`LAB.md` อยู่ใน branch `lab-N` เท่านั้น ไม่อยู่บน `main`**
+
+ทุก branch แตกจาก `main` **แยกกัน ไม่ต่อกัน** — งานที่ทำใน lab ก่อนจะไม่ตามมา (ตั้งใจให้ทุกคนเริ่มจุดเดียวกัน จึงเทียบ scoreboard ได้) ไม่ต้อง commit หรือ merge ข้าม lab
 
 | Branch | Lab | หมายเหตุ |
 |---|---|---|
@@ -35,10 +37,22 @@ npm start         # http://localhost:3000/claims
 เปลี่ยน lab:
 
 ```bash
-git stash -u          # เก็บงานของ lab ก่อนไว้ (ถ้าต้องการ)
+git fetch origin      # ครั้งแรก หรือเมื่อหา branch lab-N ไม่เจอ
+git stash -u          # เก็บงานของ lab ก่อนไว้ (ดูย้อนได้ด้วย git stash list)
 git checkout lab-2
 npm test
 ```
+
+| อาการ | แก้ |
+|---|---|
+| `error: pathspec 'lab-N' did not match` | `git fetch origin` แล้ว `git checkout lab-N` ใหม่ |
+| `would be overwritten by checkout` | `git stash -u` ก่อน แล้วค่อย checkout |
+
+## ระบุ lab ทุก session (ใช้คำนวณ scoreboard)
+
+ตั้งชื่อ chat `Lab N` และขึ้นต้นทุก prompt ด้วย `[Lab N]` (ข้อย่อย เช่น `[Lab 2-A]`) — platform แยก prompts / agent steps / tokens ต่อ lab จาก tag นี้
+
+ใช้ model **Claude Sonnet 5.5** ทุก lab · ปิด skills / MCP server ที่ไม่ใช้ก่อนเริ่ม · ไม่เห็น Ask ใน mode picker → ตั้ง session target เป็น Local หรือใช้ Plan แทน
 
 ## API
 
