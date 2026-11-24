@@ -4,6 +4,10 @@
 >
 > **Model:** Claude Sonnet 5.5 ทุก lab (ห้าม Auto) · ปิด skills / MCP server ที่ไม่ใช้ใน Configure Tools · ไม่เห็น Ask ใน picker → ตั้ง session target เป็น Local หรือใช้ Plan แทน (Edit mode ถูกรวมเข้า Agent แล้ว — ใช้ inline chat `Ctrl+I`)
 
+## แนวคิด
+
+Lab 0 คือ **baseline** — ทำโจทย์ A แบบที่ทำทุกวันก่อนเรียนเทคนิคใด แล้วตอนบ่ายทำโจทย์เดิมใน Lab 8 ด้วย 7 เทคนิค เพื่อเทียบ ข้อที่ทำได้ · prompts · agent steps · tokens · นาที กับตัวเอง (ไม่เทียบข้ามคน)
+
 ## โจทย์ A
 
 เพิ่มกฎ: **ใบเบิกยอดเกิน 1,000 บาท ต้องแนบใบเสร็จ** (`receiptUrl`) ถ้าไม่มีให้ตอบ error ตามรูปแบบเดิมของ API (`ValidationError`) และเพิ่ม test
@@ -35,6 +39,14 @@ Prompt baseline (ขึ้นต้นด้วย tag แล้วพิมพ�
 - [ ] `npm test` ผ่านทั้งหมด
 - [ ] ไม่แก้ไฟล์นอก scope และไม่มี secret / ข้อมูลจริงใน prompt
 - [ ] Review diff ก่อน accept ทุกครั้ง
+
+## หมายเหตุ prompt baseline — สไลด์ 14
+
+- ตั้งใจให้สั้นแบบที่คนส่วนใหญ่พิมพ์จริง — ยังไม่ใช้เทคนิคใด
+- follow-up ได้ตามปกติ แต่นับทุก prompt และ agent step ลง scoreboard
+- ห้ามสลับ model กลางทาง: Lab 1–8 ใช้ model เดิม — Lab 8 ต้องตรงกับ Lab 0 จึงเทียบก่อน/หลังได้
+- Lab 8 ทำโจทย์เดียวกันด้วย prompt แบบ 7 เทคนิค แล้วเทียบตัวเลข
+- ไม่เห็น model picker ให้อัปเดต VS Code + Copilot Chat
 
 ## บันทึกลง scoreboard
 
