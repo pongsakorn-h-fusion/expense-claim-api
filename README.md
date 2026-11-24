@@ -18,21 +18,21 @@ npm start         # http://localhost:3000/claims
 
 ## Branch ต่อ lab
 
-แต่ละ lab เริ่มจาก branch ของตัวเอง และมีไฟล์ `LAB.md` บอกโจทย์ เวลา และ checklist — **`LAB.md` อยู่ใน branch `lab-N` เท่านั้น ไม่อยู่บน `main`**
+แต่ละ lab เริ่มจาก branch ของตัวเอง และมีไฟล์ `LAB.md` บอกแนวคิด โจทย์ เวลา checklist และ prompt พร้อมใช้ — บน `main` มีสำเนาของทุก lab ไว้อ่านล่วงหน้าที่ [`labs/`](labs/) (`labs/lab-N.md` = `LAB.md` ของ branch `lab-N`)
 
 ทุก branch แตกจาก `main` **แยกกัน ไม่ต่อกัน** — งานที่ทำใน lab ก่อนจะไม่ตามมา (ตั้งใจให้ทุกคนเริ่มจุดเดียวกัน จึงเทียบ scoreboard ได้) ไม่ต้อง commit หรือ merge ข้าม lab
 
-| Branch | Lab | หมายเหตุ |
-|---|---|---|
-| `lab-0` | Baseline — โจทย์ A | ทำแบบที่ทำปกติ |
-| `lab-1` | Specific Request | |
-| `lab-2` | Context Engineering | มี test fail 1 ตัวโดยตั้งใจ |
-| `lab-3` | Token audit | มี test fail 1 ตัว + instructions file ที่ยาวเกินจำเป็นโดยตั้งใจ |
-| `lab-4` | Verify First | |
-| `lab-5` | Safe Agent & Secret Hygiene | |
-| `lab-6` | Evidence & Output (repro steps · output format · language) | |
-| `lab-7` | Right-size the agent (effort · model · subagent · vision · tool output) | |
-| `lab-8` | Post-test — โจทย์ A เดิม | จุดเริ่มต้นเดียวกับ `lab-0` เพื่อเทียบก่อน/หลัง |
+| Branch | Lab | คู่มือ | หมายเหตุ |
+|---|---|---|---|
+| `lab-0` | Baseline — โจทย์ A | [lab-0.md](labs/lab-0.md) | ทำแบบที่ทำปกติ |
+| `lab-1` | Specific Request | [lab-1.md](labs/lab-1.md) | |
+| `lab-2` | Context Engineering | [lab-2.md](labs/lab-2.md) | มี test fail 1 ตัวโดยตั้งใจ |
+| `lab-3` | Token audit | [lab-3.md](labs/lab-3.md) | มี test fail 1 ตัว + instructions file ที่ยาวเกินจำเป็นโดยตั้งใจ |
+| `lab-4` | Verify First | [lab-4.md](labs/lab-4.md) | |
+| `lab-5` | Safe Agent & Secret Hygiene | [lab-5.md](labs/lab-5.md) | |
+| `lab-6` | Evidence & Output (repro steps · output format · language) | [lab-6.md](labs/lab-6.md) | |
+| `lab-7` | Right-size the agent (effort · model · subagent · vision · tool output) | [lab-7.md](labs/lab-7.md) | |
+| `lab-8` | Post-test — โจทย์ A เดิม | [lab-8.md](labs/lab-8.md) | จุดเริ่มต้นเดียวกับ `lab-0` เพื่อเทียบก่อน/หลัง |
 
 เปลี่ยน lab:
 
@@ -96,4 +96,5 @@ src/
     export.ts       ส่งออก CSV
     routes.ts       เส้นทาง /claims
 tests/              vitest + supertest
+labs/               คู่มือแต่ละ lab (สำเนา LAB.md ของ branch lab-N)
 ```
