@@ -1,10 +1,14 @@
 # Lab 2 · A/B: session เก่า vs context ที่ใช่ (25 นาที)
 
+> **ระบุ lab ทุก session:** ตั้งชื่อ chat `Lab 2` และขึ้นต้นทุก prompt ด้วย `[Lab 2]` (ข้อย่อย เช่น `[Lab 2-A]`) — platform ใช้แยก prompts / agent steps / tokens ต่อ lab เพื่อคำนวณ scoreboard
+>
+> **Model:** Claude Sonnet 5.5 ทุก lab (ห้าม Auto) · ปิด skills / MCP server ที่ไม่ใช้ใน Configure Tools · ไม่เห็น Ask ใน picker → ตั้ง session target เป็น Local หรือใช้ Plan แทน (Edit mode ถูกรวมเข้า Agent แล้ว — ใช้ inline chat `Ctrl+I`)
+
 Branch นี้มี **test ที่ fail 1 ตัวโดยตั้งใจ** ใน `tests/total.test.ts` — ยอดรวมใบเบิกเชียงใหม่ทศนิยมเพี้ยน รัน `npm test` เพื่อดู error จริง
 
-**A (8 นาที)** ต่อใน chat session เดิมจาก Lab 1 แก้ bug นี้ด้วย follow-up สั้น ๆ — บันทึกตัวเลข
+**A (8 นาที)** เปิด chat **`Lab 1-1`** (โจทย์แก้ bug ยอดรวมของ Lab 1) จาก Chat history แล้วพิมพ์ต่อใน session นั้น — ขึ้นต้นทุก prompt ด้วย `[Lab 2-A]` แก้ bug นี้ด้วย follow-up สั้น ๆ — บันทึกตัวเลข
 
-**B (8 นาที)** `git stash -u` เพื่อเก็บผลของ A แล้วเปิด session ใหม่ ใช้ context template + `#file` + error จริงจาก `npm test` — บันทึกตัวเลข
+**B (8 นาที)** `git stash -u` เพื่อเก็บผลของ A แล้วเปิด session ใหม่ชื่อ `Lab 2-B` ใช้ context template + `#file` + error จริงจาก `npm test` — บันทึกตัวเลข
 
 ```text
 งาน:       แก้ bug ...
