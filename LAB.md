@@ -1,5 +1,9 @@
 # Lab 8 · Post-test — โจทย์ A เดิม ด้วย 7 เทคนิค (20 นาที)
 
+> **ระบุ lab ทุก session:** ตั้งชื่อ chat `Lab 8` และขึ้นต้นทุก prompt ด้วย `[Lab 8]` (ข้อย่อย เช่น `[Lab 8-A]`) — platform ใช้แยก prompts / agent steps / tokens ต่อ lab เพื่อคำนวณ scoreboard
+>
+> **Model:** Claude Sonnet 5.5 ทุก lab (ห้าม Auto) · ปิด skills / MCP server ที่ไม่ใช้ใน Configure Tools · ไม่เห็น Ask ใน picker → ตั้ง session target เป็น Local หรือใช้ Plan แทน (Edit mode ถูกรวมเข้า Agent แล้ว — ใช้ inline chat `Ctrl+I`)
+
 Branch นี้คือ **จุดเริ่มต้นเดียวกับ `lab-0`** (ยังไม่มี instructions file) เพื่อให้เทียบก่อน/หลังได้ตรง — เริ่มใน **chat session ใหม่**
 
 ## โจทย์ A
