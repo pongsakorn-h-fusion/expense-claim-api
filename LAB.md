@@ -4,6 +4,29 @@
 >
 > **Model:** Claude Sonnet 5.5 ทุก lab (ห้าม Auto) · ปิด skills / MCP server ที่ไม่ใช้ใน Configure Tools · ไม่เห็น Ask ใน picker → ตั้ง session target เป็น Local หรือใช้ Plan แทน (Edit mode ถูกรวมเข้า Agent แล้ว — ใช้ inline chat `Ctrl+I`)
 
+## แนวคิด — เทคนิค 3 Token Optimization
+
+token ส่วนใหญ่ไม่ได้มาจากสิ่งที่เราพิมพ์ — ทุก request ส่ง system prompt, instructions file, ไฟล์ที่แนบ + แท็บที่เปิด, ประวัติ chat และ tool / MCP definitions ไปด้วย · prompt ที่พิมพ์มักเป็นส่วนที่เล็กที่สุด
+
+- **แกน 1 · ลด context ที่โหลดอยู่ตลอด** — instructions file สั้น ไม่ซ้ำกับ `AGENTS.md` · แบ่ง 3 ชั้น: always-on (กฎที่ใช้กับทุกงาน) · conditional (`.github/instructions/*.instructions.md` + `applyTo`) · on-demand (prompt file) · ปิดแท็บที่ไม่เกี่ยว
+- **แกน 2 · เลือก mode · model · tools ก่อนเริ่ม** — คำถามที่ตอบได้จาก context → Ask (ไม่มี → Plan) · แก้จุดเดียวรู้ไฟล์ชัด → inline chat (`Ctrl+I`) · หลายไฟล์หลายขั้น → Agent · เปิดเฉพาะ MCP / tool ที่ใช้ · อย่าสลับกลางทาง
+- **แกน 3 · คุม output และ noise** — ตั้ง default ให้ตอบกระชับ กำหนดรูปแบบเมื่อเหมาะ แต่ห้ามย่อคำเตือน security / การยืนยัน action ที่ย้อนไม่ได้
+
+วัด **outcome ต่อ token** (งานที่ตรวจแล้วว่าเสร็จ ÷ token ทั้งหมด) — ไม่ใช่ token ต่ำสุด
+
+ตัวอย่าง scoped file:
+
+```markdown
+---
+applyTo: "tests/**/*.ts"
+---
+- ใช้ vitest
+- ชื่อ test: should <ผลลัพธ์> when <เงื่อนไข>
+- API test เรียก resetStore() ใน beforeEach
+```
+
+## โจทย์
+
 Branch นี้มีของที่ตั้งใจใส่ไว้ให้ audit:
 
 - `.github/copilot-instructions.md` ที่ยาวเกินจำเป็น มีกฎซ้ำ และมีกฎของ test ปนอยู่
@@ -32,6 +55,65 @@ Branch นี้มีของที่ตั้งใจใส่ไว้ใ�
 - [ ] เลือก mode ถูก 3 / 3
 - [ ] บันทึก Ask vs Agent ของคำถามเดียวกันครบ
 - [ ] คำตอบหลังตั้ง concise สั้นลงแต่ยังครบข้อมูลที่ต้องใช้
+
+## Prompt พร้อมใช้ (GitHub Copilot) — สไลด์ 36
+
+**Mode:** A, C ใช้ Agent · B ใช้ Ask/Plan แล้ว Agent (prompt เดียวกัน) · **ก่อนเริ่ม:** ปิดแท็บ + ปิด MCP / skills ใน Configure Tools
+
+> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+
+### A · ตรวจ always-on context
+
+```text
+[Lab 3-A]
+อ่าน #file:copilot-instructions.md
+และ #file:AGENTS.md แล้ว:
+1) ตัดกฎที่ซ้ำกัน และกฎที่
+   ดูได้จากโค้ดเอง
+2) ย้ายกฎของ test ไป
+   .github/instructions/
+   tests.instructions.md
+   พร้อม front matter
+   applyTo: "tests/**/*.ts"
+3) core เหลือ ≤ 10 บรรทัด
+Output: ตารางก่อน/หลัง
+  (บรรทัด · คำ) + diff
+```
+
+### B · Ask vs Agent (งานข้อ 1)
+
+```text
+# รัน Ask (หรือ Plan) แล้ว Agent
+# ใช้ session ใหม่ทั้งสองรอบ
+[Lab 3-B]
+ทำไม test นี้ fail?
+#file:src/claims/total.ts
+#file:tests/total.test.ts
+Error: (วาง error จาก npm test)
+Output: 3 bullet
+  ยังไม่ต้องแก้โค้ด
+
+# จด agent steps / tokens
+# ของทั้ง 2 รอบ
+```
+
+### C · concise default
+
+```text
+# เพิ่มท้าย copilot-instructions.md
+## Output
+- เริ่มด้วยคำตอบ ไม่ทักทาย
+  ไม่สรุปซ้ำ
+- งานแก้โค้ด: บอกสิ่งที่เปลี่ยน
+  + ผล test
+- คงตัวเลข เงื่อนไข คำเตือน
+  และคำสั่งไว้ครบ
+
+# ถาม B ซ้ำ ขึ้นต้น [Lab 3-C]
+# เทียบความยาวคำตอบ
+```
+
+นับคำก่อน/หลัง: `wc -w .github/copilot-instructions.md AGENTS.md` (tokens ≈ คำ × 1.4) · Configure Tools = ไอคอนเครื่องมือในช่อง Chat · ไม่เห็น Ask ใช้ Plan แทน
 
 ## บันทึก
 
