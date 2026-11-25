@@ -33,6 +33,7 @@ npm start         # http://localhost:3000/claims
 | `lab-6` | Evidence & Output (repro steps · output format · language) | [lab-6.md](labs/lab-6.md) | |
 | `lab-7` | Right-size the agent (effort · model · subagent · vision · tool output) | [lab-7.md](labs/lab-7.md) | |
 | `lab-8` | Post-test — โจทย์ A เดิม | [lab-8.md](labs/lab-8.md) | จุดเริ่มต้นเดียวกับ `lab-0` เพื่อเทียบก่อน/หลัง |
+| `lab-bonus` | Lab 9 (Bonus) · สร้าง Skill ของทีม (Instructions · Skills · Agents) | [lab-bonus.md](labs/lab-bonus.md) | ไม่นับใน scoreboard · เริ่มจาก `main` |
 
 เปลี่ยน lab:
 
