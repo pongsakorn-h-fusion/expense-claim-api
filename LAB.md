@@ -42,7 +42,7 @@ npm test
 1. **A · สร้าง skill (8 นาที)** — ให้ Agent เขียน `.github/skills/add-claim-rule/SKILL.md` ที่มี `name` · `description` · ขั้นตอน ≤ 20 บรรทัด (แผน → test ที่ fail ก่อน → แก้ → `npm test`) · อ่านแล้วแก้เองให้สั้นและตรง
 2. **B · เรียกด้วย `/` (8 นาที)** — พิมพ์ `/add-claim-rule` แล้วสั่งกฎใหม่: ใบเบิกหมวด `meal` ยอดรวมต้องไม่เกิน 1,500 บาท — ดูว่า agent ทำตามขั้นใน `SKILL.md` เอง (เสนอแผน → เขียน test → แก้ → รัน test)
 3. **C · ให้ agent หาเอง (6 นาที)** — session ใหม่ **ไม่พิมพ์ `/`** สั่งกฎ: ใบเบิกหมวด `hotel` ต้องมี `receiptUrl` ทุกใบ — เช็คใน chat ว่า agent อ่าน `SKILL.md` ก่อนลงมือ ถ้าไม่ ให้ปรับ `description` ให้ตรงงานขึ้น แล้วลองใหม่
-4. **D · Bonus: custom agent (3 นาที)** — สร้าง `.github/agents/claim-reviewer.agent.md` (review diff อ่านอย่างเดียว) แล้วเลือก agent นี้ใน picker ให้ review `#changes`
+4. **D · Bonus: custom agent (3 นาที)** — สร้าง `.github/agents/claim-reviewer.agent.md` (review diff อ่านอย่างเดียว) แล้วเลือก agent นี้ใน picker ให้ review diff ที่ยังไม่ commit
 
 จด prompts · agent steps · tokens ของ B และ C แล้วเทียบกับ Lab 8 — prompt ควรสั้นลง แต่ผลผ่าน checklist ครบเท่าเดิม
 
@@ -58,7 +58,9 @@ npm test
 
 **Mode:** Agent · **Skill:** `.github/skills/<ชื่อ>/SKILL.md` · **Session:** ใหม่ ต่อข้อ
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ (ยกเว้น `#file:` และ `#changes` ซึ่งเป็นการแนบ context)
+> เลือก code block ที่ระบุ platform ให้ตรงกับ GitHub Copilot Chat หรือ GitHub Copilot CLI แล้วคัดลอกไปใช้ได้ทันที
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/validate.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### A · สร้าง skill
 
@@ -79,7 +81,7 @@ front matter:
    ห้ามเพิ่ม dependency
 4) npm test → diff + ผล test
 ดู style จาก
-#file:src/claims/validate.ts
+src/claims/validate.ts
 ```
 
 ตัวอย่าง `SKILL.md` ที่ได้ (ประมาณนี้):
@@ -96,8 +98,9 @@ description: ใช้เมื่อเพิ่ม/แก้กฎ validation 
 4. รัน npm test → ตอบ diff + ผล test
 ```
 
-### B · เรียกด้วย `/`
+### B · เรียก skill
 
+ใน GitHub Copilot Chat ใช้ slash command:
 ```text
 [Lab 9-B]
 /add-claim-rule
@@ -109,29 +112,44 @@ Done when: test 1,500 ผ่าน
   · 1,500.01 ไม่ผ่าน
   · หมวดอื่นไม่กระทบ
   และ npm test ผ่าน
-
-# สังเกต: agent ทำตาม
-# ขั้นใน SKILL.md เอง
-# แผน → test → แก้ → test
 ```
 
-### C · ให้ agent หาเอง + D · custom agent
+ใน GitHub Copilot CLI อ้าง skill file ใน prompt:
+```text
+[Lab 9-B]
+ใช้ skill add-claim-rule จาก
+@.github/skills/add-claim-rule/SKILL.md
+กฎ: ใบเบิกหมวด meal
+  ยอดรวมต้องไม่เกิน 1,500 บาท
+  เกิน → ValidationError
+  ใช้ calcTotal() เดิม
+Done when: test 1,500 ผ่าน
+  · 1,500.01 ไม่ผ่าน
+  · หมวดอื่นไม่กระทบ
+  และ npm test ผ่าน
+```
+
+### C · ให้ agent หาเอง
 
 ```text
 [Lab 9-C]
-# ไม่พิมพ์ / ให้ agent หาเอง
 ใบเบิกหมวด hotel ต้องมี
 receiptUrl ทุกใบ
-ทำตามกติกาของทีม
-# เช็ค: chat อ้างถึง SKILL.md
+ค้นหาและใช้ skill ที่เกี่ยวข้องใน
+.github/skills/ ก่อนเริ่มทำงาน
+เสนอแผนแล้วเขียน test ก่อนแก้โค้ด
+รัน npm test และรายงานผล
+```
 
-[Lab 9-D] bonus
+### D · Custom agent
+
+```text
+[Lab 9-D]
 สร้าง .github/agents/
   claim-reviewer.agent.md
-review diff อ่านอย่างเดียว
-ห้ามแก้ไฟล์ ตอบ ≤ 5 ข้อ
-# เลือก agent นี้ใน picker
-Review #changes
+ตั้งค่าให้เป็น reviewer แบบอ่านอย่างเดียว
+review diff ที่ยังไม่ commit
+ห้ามแก้ไฟล์ ตอบไม่เกิน 5 ข้อ
 ```
 
 ตัวอย่าง `claim-reviewer.agent.md` (ชื่อ tool ให้ดูจาก Configure Tools ในเวอร์ชันของคุณ):

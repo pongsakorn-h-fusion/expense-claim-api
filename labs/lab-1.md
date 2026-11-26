@@ -40,7 +40,7 @@ Done when:  ...
 
 ```text
 [Lab 1-2] ยังไม่ต้องแก้โค้ด
-ใน #codebase ส่วนที่ตรวจวันที่ของใบเบิกอยู่ไฟล์ / ฟังก์ชันไหน
+ค้นใน repository ว่าส่วนที่ตรวจวันที่ของใบเบิกอยู่ไฟล์ / ฟังก์ชันไหน
 และมี test ไหนครอบอยู่แล้ว
 Output: ตาราง ไฟล์ · ฟังก์ชัน · เหตุผล ไม่เกิน 5 แถว
 ```
@@ -61,7 +61,9 @@ Output: ตาราง ไฟล์ · ฟังก์ชัน · เหตุ
 
 แนะนำให้ลองเขียนเอง 5 นาทีก่อน แล้วค่อยเทียบกับ prompt ด้านล่าง
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/validate.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### 1 · “แก้ bug ยอดรวมหน่อย”
 
@@ -70,8 +72,8 @@ Output: ตาราง ไฟล์ · ฟังก์ชัน · เหตุ
 เป้าหมาย: แก้ยอดรวมใบเบิก
   ที่ทศนิยมเพี้ยน
 Scope: แก้ได้เฉพาะ
-  #file:src/claims/total.ts
-  #file:tests/total.test.ts
+  src/claims/total.ts
+  tests/total.test.ts
 กติกา: คิดเงินเป็นสตางค์ (integer)
   แล้วแปลงกลับเป็นบาทตอนคืนค่า
 ข้อจำกัด: ห้ามเปลี่ยน signature
@@ -87,8 +89,8 @@ Done when: CLM-0002 ได้ 1250.5
 เป้าหมาย: ตรวจวันที่ใบเบิก
   ให้ถูกกติกา
 Scope: แก้ได้เฉพาะ
-  #file:src/claims/validate.ts
-  #file:tests/validate.test.ts
+  src/claims/validate.ts
+  tests/validate.test.ts
 กติกา: รูปแบบ YYYY-MM-DD
   ไม่เป็นวันในอนาคต
   ไม่เก่ากว่า 90 วัน
@@ -105,7 +107,7 @@ Done when: มี test วันนี้ · พรุ่งนี้
 เป้าหมาย: export.csv เปิดใน Excel
   แล้วคอลัมน์ไม่เลื่อน
 Scope: แก้ได้เฉพาะ
-  #file:src/claims/export.ts
+  src/claims/export.ts
   + test ใน tests/claims.test.ts
 กติกา: มีแถว header
   escape comma และ " (RFC 4180)

@@ -25,6 +25,8 @@ Lab 0 คือ **baseline** — ทำโจทย์ A แบบที่ท�
 
 Prompt baseline (ขึ้นต้นด้วย tag แล้วพิมพ์แบบที่ทำทุกวัน):
 
+คัดลอกข้อความใน code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+
 ```text
 [Lab 0]
 เพิ่มกฎใบเบิกที่ยอดเกิน 1,000 บาท
