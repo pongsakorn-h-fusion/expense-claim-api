@@ -60,14 +60,16 @@ Branch นี้มีของที่ตั้งใจใส่ไว้ใ�
 
 **Mode:** A, C ใช้ Agent · B ใช้ Ask/Plan แล้ว Agent (prompt เดียวกัน) · **ก่อนเริ่ม:** ปิดแท็บ + ปิด MCP / skills ใน Configure Tools
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@tests/total.test.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### A · ตรวจ always-on context
 
 ```text
 [Lab 3-A]
-อ่าน #file:copilot-instructions.md
-และ #file:AGENTS.md แล้ว:
+อ่าน .github/copilot-instructions.md
+และ AGENTS.md แล้ว:
 1) ตัดกฎที่ซ้ำกัน และกฎที่
    ดูได้จากโค้ดเอง
 2) ย้ายกฎของ test ไป
@@ -83,34 +85,26 @@ Output: ตารางก่อน/หลัง
 ### B · Ask vs Agent (งานข้อ 1)
 
 ```text
-# รัน Ask (หรือ Plan) แล้ว Agent
-# ใช้ session ใหม่ทั้งสองรอบ
 [Lab 3-B]
-ทำไม test นี้ fail?
-#file:src/claims/total.ts
-#file:tests/total.test.ts
-Error: (วาง error จาก npm test)
-Output: 3 bullet
-  ยังไม่ต้องแก้โค้ด
-
-# จด agent steps / tokens
-# ของทั้ง 2 รอบ
+ทำไม tests/total.test.ts จึง fail?
+Context: src/claims/total.ts และ tests/total.test.ts
+Error: expected 1250.5, received 1250.4999999999998
+ยังไม่ต้องแก้โค้ด
+Output: ภาษาไทย 3 bullet
 ```
+
+ส่ง prompt เดียวกันใน Ask/Plan และ Agent โดยใช้ session ใหม่แยกกัน แล้วบันทึก agent steps และ tokens ของทั้งสองรอบ
 
 ### C · concise default
 
 ```text
-# เพิ่มท้าย copilot-instructions.md
-## Output
-- เริ่มด้วยคำตอบ ไม่ทักทาย
-  ไม่สรุปซ้ำ
-- งานแก้โค้ด: บอกสิ่งที่เปลี่ยน
-  + ผล test
-- คงตัวเลข เงื่อนไข คำเตือน
-  และคำสั่งไว้ครบ
-
-# ถาม B ซ้ำ ขึ้นต้น [Lab 3-C]
-# เทียบความยาวคำตอบ
+[Lab 3-C]
+แก้ .github/copilot-instructions.md โดยเพิ่มหัวข้อ Output:
+- เริ่มด้วยคำตอบ ไม่ทักทายและไม่สรุปซ้ำ
+- งานแก้โค้ด: บอกสิ่งที่เปลี่ยนและผล test
+- คงตัวเลข เงื่อนไข คำเตือน และคำสั่งไว้ครบ
+จากนั้นตอบคำถามเดิมจาก Lab 3-B ตามกติกาใหม่
+Output: คำตอบภาษาไทย กระชับ
 ```
 
 นับคำก่อน/หลัง: `wc -w .github/copilot-instructions.md AGENTS.md` (tokens ≈ คำ × 1.4) · Configure Tools = ไอคอนเครื่องมือในช่อง Chat · ไม่เห็น Ask ใช้ Plan แทน
