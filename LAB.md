@@ -42,7 +42,9 @@ Branch นี้แก้ bug ยอดรวมแล้ว และมี ins
 
 **Mode:** ขั้น 1 ใช้ Plan (หรือ Ask) · ขั้น 2–4 ใช้ Agent · **Model:** เดิม · session ใหม่
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/validate.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### 1 · ขอแผนก่อน (Plan mode)
 
@@ -51,7 +53,7 @@ Branch นี้แก้ bug ยอดรวมแล้ว และมี ins
 ก่อนแก้โค้ด เสนอแผนไม่เกิน 3 ขั้น แล้วรอฉันยืนยัน
 งาน: ปฏิเสธใบเบิกที่ receiptUrl ซ้ำกับใบเดิม
   ยกเว้นใบเดิมถูกยกเลิกแล้ว (cancelled)
-Scope: src/claims/*.ts · tests/
+Scope: src/claims/ และ tests/
 ข้อจำกัด: ใช้ ValidationError เดิม · ห้ามเพิ่ม dependency
 ```
 
@@ -80,13 +82,13 @@ Done when: test ใหม่ fail ด้วย "duplicate receipt"
 
 ```text
 [Lab 4]
-Review #changes — มี edge case อะไร
+Review diff ที่ยังไม่ commit — มี edge case อะไร
 ที่ test ยังไม่ครอบ?
 Output: รายการไม่เกิน 5 ข้อ
   ยังไม่ต้องแก้โค้ด
 ```
 
-`#changes` = แนบ diff ที่ยังไม่ commit ให้ Copilot อ่าน · ถ้าเวอร์ชันของคุณไม่มี Plan mode ให้ใช้ Ask ทำขั้น 1
+แนบหรือคัดลอก diff ที่ยังไม่ commit ให้ Copilot อ่าน · ถ้าเวอร์ชันของคุณไม่มี Plan mode ให้ใช้ Ask ทำขั้น 1
 
 ## บันทึกลง scoreboard
 
