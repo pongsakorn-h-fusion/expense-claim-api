@@ -20,14 +20,14 @@ Branch นี้มี **test ที่ fail 1 ตัวโดยตั้งใ
 
 **A (8 นาที)** เปิด chat **`Lab 1-1`** (โจทย์แก้ bug ยอดรวมของ Lab 1) จาก Chat history แล้วพิมพ์ต่อใน session นั้น — ขึ้นต้นทุก prompt ด้วย `[Lab 2-A]` แก้ bug นี้ด้วย follow-up สั้น ๆ — บันทึกตัวเลข
 
-**B (8 นาที)** `git stash -u` เพื่อเก็บผลของ A แล้วเปิด session ใหม่ชื่อ `Lab 2-B` ใช้ context template + `#file` + error จริงจาก `npm test` — บันทึกตัวเลข
+**B (8 นาที)** `git stash -u` เพื่อเก็บผลของ A แล้วเปิด session ใหม่ชื่อ `Lab 2-B` แนบไฟล์ที่เกี่ยวข้องเป็น context พร้อม error จริงจาก `npm test` — บันทึกตัวเลข
 
 ```text
-งาน:       แก้ bug ...
-Context:   #file:... #file:...
-Error:     (วาง error จาก npm test)
-ข้อจำกัด:   ...
-Done when: ...
+งาน: แก้ bug ยอดรวมใบเบิกทศนิยมเพี้ยน
+Context: src/claims/total.ts และ tests/total.test.ts
+Error: expected 1250.5, received 1250.4999999999998
+ข้อจำกัด: ห้ามเปลี่ยน signature ของ calcTotal()
+Done when: npm test ผ่านทั้งหมด
 ```
 
 **C (9 นาที)** สร้าง `.github/copilot-instructions.md` 4–6 บรรทัด (convention ของ repo นี้) แล้วทำ B ซ้ำใน session ใหม่
@@ -44,19 +44,25 @@ Done when: ...
 
 **Mode:** Agent · **Model:** เดิม · **Session:** A ใช้ chat `Lab 1-1` · B / C ใช้ session ใหม่
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/total.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### A · chat Lab 1-1 + follow-up สั้น
 
 ```text
-# เปิด chat Lab 1-1 จาก history
 [Lab 2-A] test total ยัง fail
-แก้ให้หน่อย
+ตรวจ tests/total.test.ts และ src/claims/total.ts
+แก้สาเหตุที่ทำให้ยอดรวมทศนิยมเพี้ยน
+ข้อจำกัด: ห้ามเปลี่ยน signature ของ calcTotal()
+Done when: npm test ผ่านทั้งหมด
+```
 
-# follow-up ต่อตามที่เจอ เช่น
-[Lab 2-A] ยังไม่ผ่าน ลองใหม่
+ถ้าการแก้ครั้งแรกยังไม่ผ่าน ให้ส่ง follow-up นี้:
 
-# นับทุก prompt ลง scoreboard
+```text
+[Lab 2-A] ยังไม่ผ่าน ตรวจผลล่าสุดแล้วแก้เฉพาะสาเหตุที่ยังทำให้ test ล้ม
+รัน npm test อีกครั้งและรายงานผล
 ```
 
 ### B · session ใหม่ + context
@@ -66,11 +72,9 @@ Done when: ...
 งาน: แก้ bug ยอดรวมใบเบิก
   ทศนิยมเพี้ยน
 Context:
-  #file:src/claims/total.ts
-  #file:tests/total.test.ts
-Error: (วาง error จาก npm test)
-  expected 1250.5
-  received 1250.4999999999998
+  src/claims/total.ts
+  tests/total.test.ts
+Error: expected 1250.5, received 1250.4999999999998
 ข้อจำกัด: ห้ามเปลี่ยน signature
   ของ calcTotal()
 Done when: npm test ผ่านทั้งหมด
@@ -83,8 +87,8 @@ Done when: npm test ผ่านทั้งหมด
 สร้างไฟล์
 .github/copilot-instructions.md
 ไม่เกิน 6 บรรทัด ดู convention จาก
-#file:src/errors.ts
-#file:tests/validate.test.ts
+src/errors.ts
+tests/validate.test.ts
 ต้องมี:
 - TypeScript strict ห้ามใช้ any
 - Error ใช้ ValidationError
@@ -92,7 +96,7 @@ Done when: npm test ผ่านทั้งหมด
 - เงินคิดเป็นสตางค์ (integer)
 - แก้เฉพาะไฟล์ที่ระบุ
 
-# แล้ว New Chat → วาง prompt B
+ใช้ prompt B ใน session ใหม่หลังสร้าง instructions file
 ```
 
 chat เดิม = เปิด `Lab 1-1` จาก Chat history · session ใหม่ = **+ (New Chat)** · `git stash -u` ก่อนเริ่ม B · C ใช้ prompt ของ B ทุกตัวอักษร เพื่อเทียบได้
