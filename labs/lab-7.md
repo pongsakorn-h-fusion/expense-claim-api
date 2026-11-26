@@ -28,7 +28,7 @@ agent ใช้กำลังเกินงาน — 5 สัญญาณจ�
 
 1. **A · Effort + subagent (9 นาที)** — งานเล็ก: "แก้ข้อความ error ใน `src/claims/validate.ts` ให้เป็นภาษาไทย" รัน 2 แบบแล้วเทียบ: (1) effort สูงสุด + เปิด subagent (2) effort ปกติ + ไม่ใช้ subagent — บันทึก steps / tokens ของทั้งคู่
 2. **B · Vision (8 นาที)** — `npm start` แล้วเปิด `http://localhost:3000/claims/CLM-0002` (`total` เป็น `1250.4999999999998`) จับภาพหน้าจอ — Windows `Win+Shift+S` (Snipping Tool) · Mac `⌃⇧⌘4` (ลากเลือกส่วน, copy ลง clipboard) หรือ `⌃⇧⌘3` (เต็มจอ) — แล้ว `Ctrl/⌘+V` หรือลากไฟล์ลงช่อง Chat ถามว่า total ผิดเพราะอะไร 2 แบบ: (1) screenshot เต็มจอ (2) crop เฉพาะส่วน `total` — บันทึก input tokens · ถ้าแปลงเป็น text ได้ (copy JSON) ให้ทำอีกรอบแล้วเทียบ
-3. **C · Tool output (8 นาที)** — ถามคำถามเดียวกับข้อ B เป็น text 2 แบบ: (1) agent mode เปิด tool / MCP ทั้งหมด ไม่ระบุไฟล์ (2) ปิด MCP server / tool ที่ไม่ใช้ + ระบุไฟล์เป้าหมายเดียว `#file:src/claims/total.ts` — เทียบ steps / tokens
+3. **C · Tool output (8 นาที)** — ถามคำถามเดียวกับข้อ B เป็น text 2 แบบ: (1) agent mode เปิด tool / MCP ทั้งหมด ไม่ระบุไฟล์ (2) ปิด MCP server / tool ที่ไม่ใช้ + ระบุไฟล์เป้าหมายเดียว `src/claims/total.ts` — เทียบ steps / tokens
 
 ## Checklist (5 ข้อ)
 
@@ -42,20 +42,29 @@ agent ใช้กำลังเกินงาน — 5 สัญญาณจ�
 
 **Model:** เดิม · **Effort:** ตั้งใน model picker (ถ้า model รองรับ) · **Tools:** Configure Tools ในช่อง Chat
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/total.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### A · Effort + subagent
 
+แบบ 1 — effort สูงและใช้ subagent:
+
 ```text
 [Lab 7-A]
-# แบบ 1 — เกินงาน (effort สูง)
-ใช้ #runSubagent สำรวจทั้ง repo
-แล้วแก้ข้อความ error เป็นไทยใน
-src/claims/validate.ts
+ใช้ subagent หนึ่งตัวสำรวจ repository
+แล้วแก้ข้อความ error เป็นภาษาไทยใน src/claims/validate.ts
+คง field และ ValidationError เดิม
+อัปเดต test ที่ตรวจข้อความ
+Done when: npm test ผ่าน
+```
 
-# แบบ 2 — พอดีงาน (effort ปกติ)
+แบบ 2 — effort ปกติและไม่ใช้ subagent:
+
+```text
+[Lab 7-A]
 แก้ข้อความ error เป็นไทยใน
-#file:src/claims/validate.ts
+src/claims/validate.ts
 คง field และ ValidationError เดิม
 อัปเดต test ที่ assert ข้อความ
 ไม่ใช้ subagent
@@ -66,18 +75,21 @@ Done when: npm test ผ่าน
 
 ```text
 [Lab 7-B]
-# browser: /claims/CLM-0002
-# จับภาพ: Win+Shift+S · Mac ⌃⇧⌘4
-# แล้ว Ctrl/⌘+V ลงช่อง Chat
-# แบบ 1 เต็มจอ · แบบ 2 crop
-total ของ CLM-0002 ในภาพ
+จากภาพหน้าจอที่แนบของ /claims/CLM-0002
+total ของ CLM-0002
 ผิดเพราะอะไร? ตอบ 2 bullet
+ยังไม่ต้องแก้โค้ด
+```
 
-# แบบ 3 — text แทนภาพ
+แนบภาพเต็มจอหรือ crop เฉพาะบรรทัด `total` ก่อนส่ง prompt. สำหรับแบบ text ให้ใช้ prompt นี้:
+
+```text
+[Lab 7-B]
 total ของ CLM-0002 ควรเป็น
 1250.5 แต่ได้ 1250.4999999999998
-JSON: (วางจาก /claims/CLM-0002)
+JSON: {"id":"CLM-0002","total":1250.4999999999998}
 สาเหตุคืออะไร? ตอบ 2 bullet
+ยังไม่ต้องแก้โค้ด
 ```
 
 ตัวอย่างภาพ: แบบ 1 = ภาพเต็มหน้า `/claims/CLM-0002` · แบบ 2 = crop เฉพาะบรรทัด `"total":1250.4999999999998`
@@ -86,18 +98,21 @@ JSON: (วางจาก /claims/CLM-0002)
 
 ```text
 [Lab 7-C]
-# แบบ 1 — tools ทั้งหมด ไม่ระบุไฟล์
 total ของ CLM-0002 ผิดเพราะอะไร?
+ยังไม่ต้องแก้โค้ด
+ตอบ 2 bullet
+```
 
-# แบบ 2 — ปิด MCP ที่ไม่ใช้
-#file:src/claims/total.ts
+```text
+[Lab 7-C]
+ตรวจ src/claims/total.ts
 total ของ CLM-0002 =
 1250.4999999999998 (ควร 1250.5)
 สาเหตุคืออะไร? ตอบ 2 bullet
 ยังไม่ต้องแก้โค้ด
 ```
 
-ถ้าไม่มี `#runSubagent` ในเวอร์ชันของคุณ ใช้ `#codebase` แทน (ค้นทั้ง repo) · ทุกแบบรันใน session ใหม่ ขึ้นต้นด้วย tag แล้วจด steps / tokens
+ถ้าแพลตฟอร์มไม่รองรับ subagent ให้ทำแบบ 1 ด้วยการค้นทั้ง repository แทน · ทุกแบบรันใน session ใหม่ ขึ้นต้นด้วย tag แล้วจด steps / tokens
 
 ## บันทึกลง scoreboard
 

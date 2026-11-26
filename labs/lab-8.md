@@ -38,15 +38,17 @@ Branch นี้คือ **จุดเริ่มต้นเดียวก�
 
 **Mode:** Plan → Agent · **Model:** Sonnet 5.5 (= Lab 0) · **Session:** ใหม่ · ปิดแท็บ / MCP / skills ที่ไม่ใช้
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/validate.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### 1 · Prompt แรก — ครบ 7 เทคนิค (Plan / Agent)
 
 ```text
 [Lab 8]
 เป้าหมาย: ใบเบิกยอดรวม > 1,000 บาท ต้องมี receiptUrl
-Scope: แก้ได้เฉพาะ #file:src/claims/validate.ts
-  และ #file:tests/validate.test.ts
+Scope: แก้ได้เฉพาะ src/claims/validate.ts
+  และ tests/validate.test.ts
 กติกา: ≤ 1,000 ไม่บังคับ
   > 1,000 ไม่มี receiptUrl → ValidationError
   field "receiptUrl" ตามรูปแบบ error เดิม
@@ -65,14 +67,24 @@ Output: diff + ผล test · สรุปไทย ≤ 3 bullet
 ยืนยันแผน — ทำขั้น 1:
 เขียน test ที่ fail ก่อน
 ยังไม่แก้ src/
-# แล้ว: ทำขั้นถัดไปจน npm test ผ่าน
+Done when: test ใหม่ fail ด้วยเหตุผลที่ถูกต้อง
+และ test เดิมยังผ่าน
+```
+
+หลังตรวจ test ที่เพิ่มแล้ว ให้ส่ง prompt นี้:
+
+```text
+[Lab 8]
+ทำขั้นถัดไปตามแผนที่ยืนยันแล้ว
+แก้เฉพาะไฟล์ใน scope จน npm test ผ่านทั้งหมด
+Output: diff และผล test เท่านั้น
 ```
 
 ### 3 · Review ก่อน accept
 
 ```text
 [Lab 8]
-Review #changes — edge case
+Review diff ที่ยังไม่ commit — edge case
 ที่ test ยังไม่ครอบ ≤ 5 ข้อ
 ยังไม่ต้องแก้โค้ด
 ```
