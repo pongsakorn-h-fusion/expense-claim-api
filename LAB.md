@@ -49,7 +49,9 @@ repro steps ต้องไม่มีข้อมูลลับ — ตัด
 
 **Mode:** ข้อ 1–2 ใช้ Agent · ข้อ 3 ใช้ Ask · **Session:** ใหม่ต่อข้อ
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/claims/total.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### 1 · Repro steps
 
@@ -61,7 +63,7 @@ $ curl localhost:3000/claims/CLM-0002
 → "total": 1250.4999999999998
   ควรเป็น 1250.5
   (890.3 + 134.1 + 226.1)
-Scope: #file:src/claims/total.ts
+Scope: src/claims/total.ts
   + test ตาม repro
 Done when: curl เดิมได้ 1250.5
   และ npm test ผ่าน
@@ -76,8 +78,8 @@ Output: diff + ผล test เท่านั้น
 Field ตามลำดับ: id, employeeId,
   date, category, total, status
 เรียง: ตาม id จากน้อยไปมาก
-Scope: #file:src/claims/routes.ts
-  #file:src/claims/export.ts
+Scope: src/claims/routes.ts
+  src/claims/export.ts
 Output: ขอ diff อย่างเดียว
   ไม่ต้องอธิบายทั้งไฟล์
 Done when: มี test ใหม่
@@ -89,7 +91,7 @@ Done when: มี test ใหม่
 ```text
 [Lab 6-3]
 อธิบาย logic ของ
-#file:src/claims/validate.ts
+src/claims/validate.ts
 ภาษา: ไทย 3 bullet
   ไม่เกิน 20 คำต่อ bullet
 Output: ไม่ต้องแสดงโค้ด
