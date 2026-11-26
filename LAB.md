@@ -66,13 +66,15 @@ agent ขอทำ 8 อย่างนี้ — ตอบ approve หรือ
 
 **A:** ตอบเอง ไม่ใช้ AI · **B:** Ask/Plan → Agent · **C:** Settings → ค้นหา “auto approve”
 
-> บรรทัดที่ขึ้นต้นด้วย `#` ใน prompt คือคำอธิบาย ไม่ต้องพิมพ์ · ข้อความในวงเล็บ เช่น `(วาง error จาก npm test)` ให้แทนด้วยของจริง
+> คัดลอกข้อความในแต่ละ code block ไปใช้ได้ทันทีทั้ง GitHub Copilot Chat และ GitHub Copilot CLI
+>
+> **เพิ่ม context file:** ใน Chat พิมพ์ `#` แล้วเลือกไฟล์ หรือกด `+` → **Files**; ใน CLI อ้างไฟล์ใน prompt ด้วย `@path` (เช่น `@src/config.ts`). ตรวจให้แน่ใจว่าไฟล์ที่ระบุใน prompt ถูกเพิ่มเป็น context ก่อนส่ง
 
 ### B1 · หา secret (Ask)
 
 ```text
 [Lab 5-B1]
-ค้นใน #codebase หา secret
+ค้นใน repository หา secret
 ที่ hard-code (API key ·
 password · token) ทั้งในโค้ด
 ไฟล์ config และสิ่งที่ log
@@ -88,8 +90,8 @@ Output: ตาราง ไฟล์ · บรรทัด
 ```text
 [Lab 5-B2]
 งาน: ให้ key อ่านจาก process.env
-Scope: #file:src/config.ts
-  #file:src/server.ts
+Scope: src/config.ts
+  src/server.ts
   .gitignore
 กติกา:
 - ห้ามมีค่า default ของ key ในโค้ด
@@ -113,7 +115,6 @@ Done when: npm test ผ่าน และ
   แก้ต้นเหตุ + แจ้ง security team
 ภาษา: ไทย 3 บรรทัด
 
-# วางผลท้าย LAB.md
 ```
 
 `git rm --cached .env` ให้รันเองใน terminal · agent ขอรันคำสั่งสีแดง (`rm -rf`, `push --force`, `cat .env`) → **Deny ทุกครั้ง**
